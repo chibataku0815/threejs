@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
-const Canvas = () => {
+const Canvas = memo(() => {
   const [count, setCount] = useState(0)
   const mountRef = useRef(null)
 
-  useEffect(() => {
+  const init =async  () => {
     const w = 960
     const h = 540
 
@@ -37,15 +37,18 @@ const Canvas = () => {
 
       requestAnimationFrame(tick);
     }
-
     return () => {
       elm?.removeChild(renderer.domElement)
     }
+  }
+
+  useEffect(() => {
+    init()
   }, [])
 
   return (
     <div ref={mountRef}></div>
   )
-}
+})
 
 export default Canvas
